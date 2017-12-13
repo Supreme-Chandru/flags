@@ -1,0 +1,7 @@
+{
+  "name": "Flags",
+  "short_name": "Flags",
+  "description": "Guess the country of the flag",
+  "start_url": "/",
+  "display": "standalone"
+}
