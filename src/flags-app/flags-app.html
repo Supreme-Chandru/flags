@@ -1,13 +1,34 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-layout/app-layout.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../../bower_components/paper-styles/color.html">
+
+<link rel="import" href="whose-flag-app.html">
 
 <dom-module id="flags-app">
   <template>
     <style>
-      :host {
-        display: block;
-      }
+     :host {
+       display: block;
+       font-family: Roboto, Noto, sans-serif;
+     }
+
+   </style>
     </style>
-    <h2>Hello [[prop1]]!</h2>
+    <app-header>
+     <app-toolbar>
+       <div main-title>Whose flag is this?</div>
+     </app-toolbar>
+   </app-header>
+   
+    <whose-flag-app></whose-flag-app>
+
+
+
+  </div>
+
   </template>
 
   <script>
@@ -19,9 +40,9 @@
       static get is() { return 'flags-app'; }
       static get properties() {
         return {
-          prop1: {
+          title: {
             type: String,
-            value: 'flags-app'
+            value: 'flags-apppjffyfmhy'
           }
         };
       }

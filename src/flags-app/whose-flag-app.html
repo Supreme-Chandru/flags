@@ -1,0 +1,125 @@
+
+
+
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-styles/color.html">
+
+<dom-module id='whose-flag-app'>
+  <template>
+    <style>
+      paper-button {
+        color: white;
+      }
+      paper-button.another {
+        background: var(--paper-blue-500);
+        width: 100%;
+      }
+      paper-button.another:hover {
+        background: var(--paper-light-blue-500);
+      }
+      paper-button.answer {
+        background: var(--paper-purple-500);
+        flex-grow: 1;
+      }
+      paper-button.answer:hover {
+        background: var(--paper-pink-500);
+      }
+      app-toolbar {
+        background-color: var(--paper-blue-500);
+        color: white;
+        margin: 20px 0;
+      }
+      iron-image {
+        border: solid;
+        width: 100%;
+        --iron-image-width: 100%;
+         background-color: white;
+      }
+
+      #flag-image-container {
+        max-width: 600px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      #answer-button-container {
+        display: flex; /* or inline-flex */
+        flex-flow: row wrap;
+        justify-content:space-around;
+      }
+    </style>
+
+    <iron-ajax
+      auto
+      url="../../data/countrycodes.json"
+      handle-as="json"
+      on-response="_handleResponse"></iron-ajax>
+
+      <div id="flag-image-container">
+       <iron-image
+         id="flag-image"
+         preload fade src="data/svg/[[correctAnswer.code]].svg">
+       </iron-image>
+     </div>
+    <div id="answer-button-container">
+      <paper-button id="optionA" class="answer" on-click="_selectAnswer">[[countryA.name]]</paper-button>
+      <paper-button id="optionB" class="answer" on-click="_selectAnswer">[[countryB.name]]</paper-button>
+    </div>
+    <p>[[outputMessage]]</p>
+    <paper-button class="another" id="another">Another!</paper-button>
+  </template>
+
+  <script>
+    class WhoseFlagApp extends Polymer.Element {
+      static get is() {return 'whose-flag-app';}
+      static get properties(){
+        return {
+          countryA: {
+            type: Object
+          },
+          countryB: {
+            type: Object
+          },
+          outputMessage:{
+            type: String,
+            value: ""
+          },
+          correctAnswer: {
+            type: Object,
+            value: {
+              name: 'Brazil',
+              code: 'BR'
+            }
+          },
+          userAnswer: {
+            type: String,
+            value: ""
+          },
+          countryList: {
+            type: Object
+          }
+        };
+      }
+
+      _handleResponse(event){
+          this.countryList = event.detail.response.countrycodes;
+          this.countryA = this.countryList[0];
+          this.countryB = this.countryList[1];
+          this.correctAnswer = this.countryA;
+      }
+
+      _selectAnswer(event){
+        let clickedButton = event.target;
+        this.userAnswer = clickedButton.textContent;
+        if(this.correctAnswer === this.userAnswer){
+          this.outputMessage = `${this.userAnswer} is Correct!!`;
+        }else{
+          this.outputMessage = `Nope, The correct ansert is ${this.correctAnswer.name}`;
+        }
+
+      }
+    }
+
+    window.customElements.define(WhoseFlagApp.is, WhoseFlagApp)
+  </script>
+</dom-module>
